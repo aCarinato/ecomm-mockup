@@ -1,6 +1,7 @@
 const dataIT = {
   products: [
     {
+      id: 1,
       name: 'Maglietta Gratis',
       slug: 'maglietta-gratis',
       category: 'Maglieria',
@@ -13,6 +14,7 @@ const dataIT = {
       description: 'Una maglietta molto popolare',
     },
     {
+      id: 2,
       name: 'Maglietta Aderente',
       slug: 'fit-shirt',
       category: 'Maglieria',
@@ -25,6 +27,7 @@ const dataIT = {
       description: 'Una maglietta aderente molto popolare',
     },
     {
+      id: 3,
       name: 'Maglietta magra',
       slug: 'slim-shirt',
       category: 'Maglieria',
@@ -37,6 +40,7 @@ const dataIT = {
       description: 'Una maglietta magra molto popolare',
     },
     {
+      id: 4,
       name: 'Pantaloni da Golf',
       slug: 'golf-pants',
       category: 'Pantaloni',
@@ -49,6 +53,7 @@ const dataIT = {
       description: 'Un panta-golf molto popolare',
     },
     {
+      id: 5,
       name: 'Panta Aderente',
       slug: 'fit-pants',
       category: 'Pantaloni',
@@ -61,6 +66,7 @@ const dataIT = {
       description: 'Un fit-pants molto popolare',
     },
     {
+      id: 6,
       name: 'Panta Classico',
       slug: 'pantalone-classico',
       category: 'Pantaloni',
