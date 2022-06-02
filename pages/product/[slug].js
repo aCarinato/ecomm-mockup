@@ -1,12 +1,15 @@
+import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
-import Layout from '../../components/layout';
+import React, { Fragment, useContext, useEffect } from 'react';
 import dataEN from '../../utils/data-en';
 import dataIT from '../../utils/data-it';
 
+import { Store } from '../../utils/Store';
+
 export default function ProductScreen() {
+  const { state, dispatch } = useContext(Store);
   const router = useRouter();
   const { query, locale } = router;
   const { slug } = query;
@@ -16,17 +19,34 @@ export default function ProductScreen() {
   }
   const productId = product.id;
 
+  const addToCartHandler = () => {
+    // const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
+    const existItem = state.cart.cartItems.find((x) => x.id === product.id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+
+    if (product.countInStock < quantity) {
+      alert('Sorry. Product is out of stock');
+      return;
+    }
+
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity } });
+  };
+
   useEffect(() => {
     if (locale === 'it') {
       const productIT = dataIT.products.find((x) => x.id === productId);
       const productITSlug = productIT.slug;
-      console.log(productITSlug);
+      //   console.log(productITSlug);
       router.push(`/prodotti/${productITSlug}`);
     }
   }, [locale]);
 
   return (
-    <Layout title={product.name}>
+    <Fragment>
+      <Head>
+        <title>{product.name}</title>
+        <meta name="description" content={product.description} />
+      </Head>
       {locale === 'en' && (
         <>
           <div className="py-2">
@@ -67,13 +87,17 @@ export default function ProductScreen() {
                     {product.countInStock > 0 ? 'In stock' : 'Unavailable'}
                   </div>
                 </div>
-                <button className="primary-button w-full">Add to cart</button>
+                <button
+                  className="primary-button w-full"
+                  onClick={addToCartHandler}
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           </div>
         </>
       )}
-      {/* {locale === 'it' && <></>} */}
-    </Layout>
+    </Fragment>
   );
 }
