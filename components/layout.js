@@ -1,13 +1,18 @@
 // import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useContext, useEffect, useState } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Store } from '../utils/Store';
 
 import classes from './layout.module.css';
 
 export default function Layout({ children }) {
+  const { status, data: session } = useSession();
+
   const { state } = useContext(Store);
   const { cart } = state;
 
@@ -28,6 +33,7 @@ export default function Layout({ children }) {
 
   return (
     <>
+      <ToastContainer position="bottom-center" limit={1} />
       <div className="flex min-h-screen flex-col justify-between ">
         <header>
           <nav className="flex h-12 items-center px-4 justify-between shadow-md">
@@ -44,9 +50,15 @@ export default function Layout({ children }) {
                         {cartCounter}
                       </a>
                     </Link>
-                    <Link href="/login">
-                      <a className="p-2">Login</a>
-                    </Link>
+                    {status === 'loading' ? (
+                      'Loading'
+                    ) : session?.user ? (
+                      session.user.name
+                    ) : (
+                      <Link href="/login">
+                        <a className="p-2">Login</a>
+                      </Link>
+                    )}
                   </>
                 )}
                 {locale === 'de' && (
@@ -57,9 +69,15 @@ export default function Layout({ children }) {
                         {cartCounter}
                       </a>
                     </Link>
-                    <Link href="/login">
-                      <a className="p-2">Login</a>
-                    </Link>
+                    {status === 'loading' ? (
+                      'Loading'
+                    ) : session?.user ? (
+                      session.user.name
+                    ) : (
+                      <Link href="/login">
+                        <a className="p-2">Login</a>
+                      </Link>
+                    )}
                   </>
                 )}
                 {locale === 'it' && (
@@ -70,9 +88,15 @@ export default function Layout({ children }) {
                         {cartCounter}
                       </a>
                     </Link>
-                    <Link href="/login">
-                      <a className="p-2">Login</a>
-                    </Link>
+                    {status === 'loading' ? (
+                      'Loading'
+                    ) : session?.user ? (
+                      session.user.name
+                    ) : (
+                      <Link href="/loginIT">
+                        <a className="p-2">Login</a>
+                      </Link>
+                    )}
                   </>
                 )}
               </div>
