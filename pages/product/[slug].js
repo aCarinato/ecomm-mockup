@@ -3,8 +3,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Fragment, useContext, useEffect } from 'react';
-import dataEN from '../../utils/data-en';
-import dataIT from '../../utils/data-it';
+// import dataEN from '../../utils/data-en';
+// import dataIT from '../../utils/data-it';
+
+import data from '../../utils/data';
 
 import { Store } from '../../utils/Store';
 
@@ -13,7 +15,8 @@ export default function ProductScreen() {
   const router = useRouter();
   const { query, locale } = router;
   const { slug } = query;
-  const product = dataEN.products.find((x) => x.slug === slug);
+  // const product = dataEN.products.find((x) => x.slug === slug);
+  const product = data.products.find((x) => x.slugEN === slug);
   if (!product) {
     return <div>Produt Not Found</div>;
   }
@@ -34,8 +37,8 @@ export default function ProductScreen() {
 
   useEffect(() => {
     if (locale === 'it') {
-      const productIT = dataIT.products.find((x) => x.id === productId);
-      const productITSlug = productIT.slug;
+      // const productIT = dataIT.products.find((x) => x.id === productId);
+      const productITSlug = product.slugIT;
       //   console.log(productITSlug);
       router.push(`/prodotti/${productITSlug}`);
     }
@@ -44,8 +47,8 @@ export default function ProductScreen() {
   return (
     <Fragment>
       <Head>
-        <title>{product.name}</title>
-        <meta name="description" content={product.description} />
+        <title>{product.nameEN}</title>
+        <meta name="description" content={product.descriptionEN} />
       </Head>
       {locale === 'en' && (
         <>
@@ -56,7 +59,7 @@ export default function ProductScreen() {
             <div className="md:col-span-2">
               <Image
                 src={product.image}
-                alt={product.name}
+                alt={product.nameEN}
                 width={640}
                 height={640}
                 layout="responsive"
@@ -65,14 +68,14 @@ export default function ProductScreen() {
             <div>
               <ul>
                 <li>
-                  <h1 className="text-lg">{product.name}</h1>
+                  <h1 className="text-lg">{product.nameEN}</h1>
                 </li>
-                <li>Category: {product.category}</li>
+                <li>Category: {product.categoryEN}</li>
                 <li>Brand: {product.brand}</li>
                 <li>
                   {product.rating} of {product.numReviews} reviews
                 </li>
-                <li>Description: {product.description}</li>
+                <li>Description: {product.descriptionEN}</li>
               </ul>
             </div>
             <div>
