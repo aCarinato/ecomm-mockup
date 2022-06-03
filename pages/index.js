@@ -1,11 +1,8 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-// import Layout from '../components/layout';
 import ProductItem from '../components/ProductItem';
 
 import data from '../utils/data';
-// import dataEN from '../utils/data-en';
-// import dataIT from '../utils/data-it';
 
 function Home() {
   const router = useRouter();

@@ -25,7 +25,6 @@ function CarrelloScreen() {
 
   useEffect(() => {
     if (locale === 'en') {
-      // TO BE DONE: CONVERT THE CART ITEM SLUG TO THE NEW LANGUAGE
       router.push('/cart');
     }
   }, [locale]);
@@ -106,7 +105,7 @@ function CarrelloScreen() {
               </li>
               <li>
                 <button
-                  onClick={() => router.push('/shipping')}
+                  onClick={() => router.push('loginIT?redirect=/shipping')}
                   className="primary-button w-full"
                 >
                   Check Out

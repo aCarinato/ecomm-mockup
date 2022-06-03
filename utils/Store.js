@@ -31,6 +31,15 @@ function reducer(state, action) {
       Cookies.set('cart', JSON.stringify({ ...state.cart, cartItems }));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
+    case 'CART_RESET':
+      return {
+        ...state,
+        cart: {
+          cartItems: [],
+          shippingAddress: { location: {} },
+          paymentMethod: '',
+        },
+      };
     // ADD A CASE TO CONVERT THE EVENTS FOR THE CART WHEN THE LANGUAGE IS SWITCHED => 'CART_CONVERT_ITEM'
     default:
       return state;
