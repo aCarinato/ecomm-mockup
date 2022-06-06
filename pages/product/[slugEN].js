@@ -1,33 +1,34 @@
+import axios from 'axios';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { Fragment, useContext, useEffect } from 'react';
-// import dataEN from '../../utils/data-en';
-// import dataIT from '../../utils/data-it';
+import Product from '../../models/Product';
 
-import data from '../../utils/data';
+import db from '../../utils/db';
 
 import { Store } from '../../utils/Store';
 
-export default function ProductScreen() {
+export default function ProductScreen(props) {
   const { state, dispatch } = useContext(Store);
   const router = useRouter();
-  const { query, locale } = router;
-  const { slug } = query;
-  // const product = dataEN.products.find((x) => x.slug === slug);
-  const product = data.products.find((x) => x.slugEN === slug);
+  const { locale } = router;
+
+  const { product } = props;
+
   if (!product) {
     return <div>Produt Not Found</div>;
   }
   const productId = product.id;
 
-  const addToCartHandler = () => {
+  const addToCartHandler = async () => {
     // const existItem = state.cart.cartItems.find((x) => x.slug === product.slug);
     const existItem = state.cart.cartItems.find((x) => x.id === product.id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (product.countInStock < quantity) {
+    if (data.countInStock < quantity) {
       alert('Sorry. Product is out of stock');
       return;
     }
@@ -103,4 +104,18 @@ export default function ProductScreen() {
       )}
     </Fragment>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { params } = context;
+  const { slugEN } = params;
+
+  await db.connect();
+  const product = await Product.findOne({ slugEN }).lean();
+  await db.disconnect();
+  return {
+    props: {
+      product: product ? db.convertDocToObj(product) : null,
+    },
+  };
 }

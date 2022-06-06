@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product, addToCartHandler }) {
   const router = useRouter();
   const { locale } = router;
   return (
@@ -45,7 +45,12 @@ export default function ProductItem({ product }) {
         )}
         <p className="mb-2">{product.brand}</p>
         <p>${product.price}</p>
-        <button className="primary-button" type="button">
+
+        <button
+          className="primary-button"
+          type="button"
+          onClick={() => addToCartHandler(product)}
+        >
           {locale === 'it' && 'Aggiungi al Carrello'}
           {locale === 'en' && 'Add to cart'}
         </button>
