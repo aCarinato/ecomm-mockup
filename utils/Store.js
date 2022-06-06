@@ -6,7 +6,7 @@ export const Store = createContext();
 const initialState = {
   cart: Cookies.get('cart')
     ? JSON.parse(Cookies.get('cart'))
-    : { cartItems: [] },
+    : { cartItems: [], shippingAddress: {} },
 };
 
 function reducer(state, action) {
@@ -40,7 +40,25 @@ function reducer(state, action) {
           paymentMethod: '',
         },
       };
-    // ADD A CASE TO CONVERT THE EVENTS FOR THE CART WHEN THE LANGUAGE IS SWITCHED => 'CART_CONVERT_ITEM'
+    case 'SAVE_SHIPPING_ADDRESS':
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          shippingAddress: {
+            ...state.cart.shippingAddress,
+            ...action.payload,
+          },
+        },
+      };
+    case 'SAVE_PAYMENT_METHOD':
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
+        },
+      };
     default:
       return state;
   }
